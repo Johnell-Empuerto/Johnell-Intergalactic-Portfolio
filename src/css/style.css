@@ -210,16 +210,28 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .earth-container {
-    position: absolute;
-    bottom: -380px;
-    left: 50%;
-    transform: translateX(-50%) rotateY(0deg);
-    width: 680px;
-    height: 630px;
-    transform-style: preserve-3d;
-    transition: transform 0.1s 
-ease-out;
+  position: absolute;
+  bottom: -380px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 680px;
+  height: 630px;
+  background: url("../assets/earth.png") no-repeat center / contain;
+  animation: earthRotate 40s linear infinite;
+  clip-path: inset(0 0 0 0 round 50%);
+  overflow: hidden;
 }
+
+/* Rotate only front half illusion */
+@keyframes earthRotate {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
 
 .earth-container::before {
   content: "";

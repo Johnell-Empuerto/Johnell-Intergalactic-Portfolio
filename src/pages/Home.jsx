@@ -3,7 +3,7 @@ import sattelite from "../assets/icons/satellite.png";
 import 'animate.css';
 
 const Home = () => {
-
+  
   return (
 
         <div className="home-con">

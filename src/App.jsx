@@ -6,8 +6,31 @@ import linkedin from "./assets/icons/linkedin.png";
 import instagram from "./assets/icons/instagram.png";
 import scroll from "./assets/scroll.png";
 import 'animate.css';
+import { useEffect, useState } from 'react';
 
 const App = () => {
+
+
+  const [rotation, setRotation] = useState(275); // Start at 275 degrees
+
+  useEffect(() => {
+    const handleWheel = (event) => {
+      // Rotate by 90 degrees on scroll down (positive deltaY) - to the left/other side
+      if (event.deltaY > 0) {
+        setRotation((prev) => (prev + 90) % 360);
+      }
+      // Rotate back by 90 degrees on scroll up (negative deltaY)
+      else if (event.deltaY < 0) {
+        setRotation((prev) => (prev - 90 + 360) % 360);
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
+
   return (
     <div className='app-container'>
       <div className="home">
@@ -43,7 +66,13 @@ const App = () => {
           {/* Floating Icons */}
 
           {/* Earth Container for Rotation Effect */}
-              <div className="earth-container animate__animated animate__zoomIn animate__delay-1s"></div>
+              <div className="earth-wrapper animate__animated animate__zoomIn animate__delay-1s">
+  <div
+    className="earth-container"
+    style={{ transform: `translateX(-50%) rotate(${rotation}deg)` }}
+  ></div>
+</div>
+
           {/* Earth Container for Rotation Effect */}
         </div>
       </div>
