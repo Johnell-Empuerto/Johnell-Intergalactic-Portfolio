@@ -1,4 +1,5 @@
-/* Home.css - Full CSS including reset, fonts, and new Earth rotation styles */
+/* Add this to the top of your style.css for the font */
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap');
 
 @font-face {
   font-family: 'starjedi';
@@ -18,6 +19,13 @@
   --primary-font: 'deathstarttf', sans-serif;
   --secondary-font: 'starjedi', sans-serif;
   --primary-size: 38px;
+
+  --rocket-main: white;
+  --rocket-highlight: #e74c3c;
+  --rocket-glass: #9AECDB;
+  --rocket-smoke: #f1f2f6;
+  --rocket-fire: #f0932b;
+  --rocket-fire-highlight: #f1c40f;
 }
 
 /* Box sizing & inheritance */
@@ -622,49 +630,6 @@ header .contact-header {
 }
 
 
-/* Rocket Animation */
-
-
-.rocket-anim img {
-  width: 100%; /* Adjust size */
-  height: auto;
-}
-
-/* Rocket slow-then-fast takeoff */
-.rocket-anim {
-  position: absolute;
-  bottom: 30%; /* starts above the Earth */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 0;
-  animation: rocketUp 4.5s cubic-bezier(0.3, 0.05, 0.7, 1) forwards;
-}
-
-/* Smooth lift-off then fast exit */
-@keyframes rocketUp {
-  0% {
-    transform: translateX(-50%) translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  10% {
-    transform: translateX(-50%) translateY(-30px) rotate(-2deg);
-  }
-  30% {
-    transform: translateX(-50%) translateY(-100px) rotate(-3deg);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-200px) rotate(-5deg);
-  }
-  80% {
-    transform: translateX(-50%) translateY(-800px) rotate(-8deg);
-  }
-  100% {
-    transform: translateX(-50%) translateY(-220vh) rotate(-10deg);
-    opacity: 0;
-  }
-}
-
-
 .skill-con {
     font-family: var(--primary-font);
     font-size: 21px;
@@ -707,4 +672,214 @@ header .contact-header {
   clip-path: inset(0 0 0 0 round 50%);
   overflow: hidden;
   z-index: 1; /* Above rocket */
+}
+
+
+.shadow {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  background: rgba(100, 100, 100, .1);
+  z-index: 1;
+}
+
+.shadow--full {
+  width: 100%;
+}
+
+.rocket {
+  position: relative;
+  width: 55px;
+  height: 100px;
+}
+
+.rocket__body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.rocket__body__window {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 30px;
+  left: 13.5px;
+  border-radius: 50%;
+  background: var(--rocket-glass);
+  z-index: 1;
+  border: 3px solid var(--rocket-highlight);
+}
+
+.rocket__body__inner {
+  position: relative;
+  width: 55px;
+  height: 125px;
+  border-radius: 80%;
+  background: var(--rocket-main);
+  overflow: hidden;
+}
+
+.rocket__body__inner::before,
+.rocket__body__inner::after {
+  content: "";
+  position: absolute;
+  background: var(--rocket-highlight);
+  border-radius: 50%;
+}
+
+.rocket__body__inner::before {
+  width: 100%;
+  height: 50px;
+  top: -30px;
+}
+
+.rocket__body__inner::after {
+  width: 100%;
+  height: 10px;
+  bottom: 22.5px;
+}
+
+.rocket__wing {  
+  position: absolute;
+  background: var(--rocket-highlight);
+  bottom: 0;    
+  z-index: 5;
+}
+
+.rocket__wing--left {
+  left: -29px;
+  width: 44px;
+  height: 20px;
+  border-radius: 100% 0 0 0;
+  transform: rotate(-50deg);
+}
+
+.rocket__wing--right {
+  right: -29px;
+  width: 44px;
+  height: 20px;
+  border-radius: 0 100% 0 0;
+  transform: rotate(50deg);
+}
+
+.rocket__label {
+  width: 250px;
+  position: absolute;
+  top: -80px;
+  left: -80px;
+}
+
+.rocket__label p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: 'Bowlby One SC', cursive;
+  font-size: 80px;
+  line-height: 80px;
+  margin: 0;
+  text-transform: uppercase;
+  color: var(--font-color);
+  transform: rotate(-25deg);
+}
+
+.rocket__smoke {
+  position: absolute;
+  width: 50px;
+  height: 10px;
+  bottom: 5px;
+  opacity: 0;
+  z-index: 15;
+}
+
+.rocket__smoke__inner {
+  position: relative;
+  margin: 30px 0 0 0;
+  width: 100%;
+  height: 100%;
+  background: var(--rocket-smoke);      
+}
+
+.rocket__smoke__inner div {
+  position: absolute;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  left: -5px;
+  bottom: 0;
+  box-shadow: inset -2px -3px 0 0 var(--rocket-smoke);    
+  background: #fff;    
+  z-index: 10;      
+}
+
+.rocket__smoke__inner div:nth-child(1) {
+  transform: scale(1.5);
+  left: 10%;
+  bottom: 30%;
+  z-index: 9;
+}
+
+.rocket__smoke__inner div:nth-child(2) {
+  transform: scale(2.5);
+  left: 50%;
+  bottom: 90%;
+  z-index: 8;
+}
+
+.rocket__smoke__inner div:nth-child(3) {
+  transform: scale(1.1);
+  left: 84%;
+  bottom: 4.5%;
+  z-index: 7;
+}
+
+.rocket__smoke__inner div:nth-child(4) {
+  transform: scale(1.8);
+  left: 30%;
+  bottom: 60%;
+  z-index: 6;
+}
+
+.rocket__smoke--right {
+  right: -50px;
+}
+
+.rocket__smoke--left {
+  left: -50px;
+  transform: rotateY(180deg);
+}
+
+.rocket__fire {
+  position: absolute;
+  width: 13.75px;
+  height: 13.75px;
+  bottom: -15.75px;
+  left: 20.75px;
+  background: var(--rocket-fire);
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  margin-top: 20px;
+  transform: rotate(135deg);
+}
+
+.rocket__fire::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 10.3125px;
+  height: 10.3125px;
+  background: var(--rocket-fire-highlight);
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+}
+
+/* Rocket Animation Layer */
+.rocket-anim {
+  position: absolute;
+  bottom: 30%; /* starts above the Earth */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
 }

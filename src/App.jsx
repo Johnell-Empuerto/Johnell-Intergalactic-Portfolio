@@ -8,8 +8,8 @@ import instagram from "./assets/icons/instagram.png";
 import scroll from "./assets/scroll.png";
 import sattelite from "./assets/icons/satellite.png"; // Import satellite here for header
 import middleBg from "./assets/middle_bg.png"; // Import the middle background image
-import rocket from "./assets/icons/rocket.png"; // Import the rocket icon
 import 'animate.css';
+import { gsap } from 'gsap';
 
 const App = () => {
   const [rotation, setRotation] = useState(275); // Start at 275 degrees
@@ -26,47 +26,10 @@ const App = () => {
 
       if (event.deltaY > 0) { // Scroll down
         if (section === 0) {
-          // Single scroll: Start rocket anim, then chain to content exit + BG change + Middle
           setIsAnimating(true);
           setRotation((prev) => (prev + 90) % 360);
           setShowRocket(true); // Trigger rocket fly-up
           setSection(1); // Transition state
-
-          // After rocket anim (1s), proceed to content exit + BG in
-          setTimeout(() => {
-            // Exit Home content (but keep container for Middle)
-            const contentElement = document.querySelector('.content-area');
-            if (contentElement) {
-              contentElement.classList.add('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
-            }
-            // Start BG
-            setNewBgVisible(true);
-            setIsBgFadingOut(false);
-
-            // After next phase (1s), auto-show Middle
-            setTimeout(() => {
-              // 🔧 Clear exit classes and reset styles from .content-area so Middle can show fully visible
-              const contentElementAgain = document.querySelector('.content-area');
-              if (contentElementAgain) {
-                contentElementAgain.classList.remove('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
-                contentElementAgain.style.opacity = '1';
-                contentElementAgain.style.transform = 'none';
-              }
-              setShowMiddleContent(true);
-              // 🔧 Add 'show' class to trigger fade-in on .middle-con
-              const middleElement = document.querySelector('.middle-con');
-              if (middleElement) {
-                middleElement.classList.add('show');
-              }
-              setSection(2); // Full Middle state
-              setIsAnimating(false);
-            }, 1000);
-          }, 1000); // Rocket duration
-
-          // 🔁 Hide rocket after takeoff finishes so it can restart next time
-          setTimeout(() => {
-            setShowRocket(false);
-          }, 4500); // Match CSS animation duration
         }
       } else if (event.deltaY < 0) { // Scroll up
         if (section === 2 || section === 1) {
@@ -116,13 +79,164 @@ const App = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, [section, isAnimating, newBgVisible, showMiddleContent, isBgFadingOut, showRocket]);
 
+  useEffect(() => {
+    if (!showRocket) return;
+
+    let tl = gsap.timeline({ repeat: 0 }); // No repeat for one-time animation
+
+    let labels = document.getElementsByClassName("labels"),
+        rocketElements = document.querySelectorAll(".rocket__body, .rocket__wing, .rocket__fire"),
+        smokeL = document.querySelectorAll(".rocket__smoke--left"),
+        smokeR = document.querySelectorAll(".rocket__smoke--right"),
+        fire = document.getElementsByClassName("rocket__fire");
+
+    // Durations!
+    let cdStart = 1.25, cdLeave = cdStart / 2,
+        esDuration = 0.10, esRepeat = 15,
+        smDuration = 1.5;
+
+    // Animations!
+    tl.addLabel("countdown")
+      .from(labels, {
+        duration: cdStart,
+        scale: 0,
+        x: "50px", y: "50px",
+        stagger: cdStart / labels.length,
+      }, "countdown")
+      .to(labels, {
+        duration: cdLeave,
+        scale: 0,
+        x: "20px", y: "20px",
+        opacity: 0,
+        stagger: cdStart / labels.length,
+      }, "countdown+=" + cdStart / labels.length) 
+      .addLabel("engine-start")
+      .from(rocketElements, {
+        duration: esDuration,
+        x: "+=3px",
+        repeat: esRepeat,
+      }, "engine-start-=.5")
+      .from(rocketElements, {
+        duration: esDuration * 20,
+        y: "+=5px",
+      }, "engine-start-=1")
+      .from(smokeL, {
+        duration: smDuration,
+        scale: 0,
+        opacity: 2,
+        stagger: smDuration / smokeL.length,
+        x: "+=45px", y: "+=30px",
+      }, "engine-start-=.5")
+      .from(smokeR, {
+        duration: smDuration,
+        scale: 0,
+        opacity: 2,
+        stagger: smDuration / smokeR.length,
+        x: "-=45px", y: "+=30px",
+      }, "engine-start-=.5") 
+      .from(fire, {
+        duration: smDuration,
+        scale: 0,
+      }, "engine-start-=.5")
+      .addLabel("lift-off")
+      .to(rocketElements, {
+        duration: 2,
+        y: "-=100px",
+      }, "lift-off-=1")
+      .to(fire, {
+        duration: .25,
+        scale: 2,
+      }, "lift-off-=1")  
+      .addLabel("launch")
+      .to(rocketElements, {
+        duration: 3,
+        y: () => "-=" + (document.body.offsetHeight) + "px",
+        ease: "power4",
+      }, "launch-=1.5")
+      .to(fire, {
+        duration: .25,
+        scale: 1.75,
+        repeat: 10,
+      }, "launch-=1.8");
+
+    tl.eventCallback("onComplete", () => {
+      // Exit Home content (but keep container for Middle)
+      const contentElement = document.querySelector('.content-area');
+      if (contentElement) {
+        contentElement.classList.add('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
+      }
+      // Start BG
+      setNewBgVisible(true);
+      setIsBgFadingOut(false);
+
+      // After next phase (1s), auto-show Middle
+      setTimeout(() => {
+        // 🔧 Clear exit classes and reset styles from .content-area so Middle can show fully visible
+        const contentElementAgain = document.querySelector('.content-area');
+        if (contentElementAgain) {
+          contentElementAgain.classList.remove('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
+          contentElementAgain.style.opacity = '1';
+          contentElementAgain.style.transform = 'none';
+        }
+        setShowMiddleContent(true);
+        // 🔧 Add 'show' class to trigger fade-in on .middle-con
+        const middleElement = document.querySelector('.middle-con');
+        if (middleElement) {
+          middleElement.classList.add('show');
+        }
+        setSection(2); // Full Middle state
+        setIsAnimating(false);
+        setShowRocket(false);
+      }, 1000);
+    });
+  }, [showRocket]);
+
   return (
     <div className='app-container'>
       <div className="home">
         {/* Rocket Animation Layer - Behind Earth */}
         {showRocket && (
           <div className="rocket-anim">
-            <img src={rocket} alt="rocket" />
+            <div className="rocket">
+              <div className="rocket__body">
+                <div className="rocket__body__window">
+                  <div className="shadow"></div>
+                </div>
+                <div className="rocket__body__inner">
+                  <div className="shadow"></div>
+                </div>
+              </div>
+              <div className="rocket__wing rocket__wing--left"></div>
+              <div className="rocket__wing rocket__wing--right">
+                <div className="shadow shadow--full"></div>
+              </div>
+              <div className="rocket__label">
+                {[3, 2, 1].map((val) => (
+                  <p key={val} className="labels">
+                    {val}
+                  </p>
+                ))}
+              </div>
+              {['left', 'right'].map((val) =>
+                Array(5)
+                  .fill(0)
+                  .map((_, idx) => (
+                    <div
+                      key={`${val}-${idx}`}
+                      className={`rocket__smoke rocket__smoke--${val}`}
+                    >
+                      <div className="rocket__smoke__inner">
+                        {Array(4)
+                          .fill(0)
+                          .map((_, i) => (
+                            <div key={i} />
+                          ))}
+                      </div>
+                    </div>
+                  ))
+              )}
+              <div className="rocket__fire"></div>
+            </div>
           </div>
         )}
 
