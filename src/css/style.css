@@ -211,7 +211,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .earth-container {
   position: absolute;
-  bottom: -380px;
+  bottom: -310px;
   left: 50%;
   transform: translateX(-50%);
   width: 680px;
@@ -449,12 +449,12 @@ header .contact-header {
 }
 
 
-.scroll-icon {
+/* .scroll-icon {
     position: absolute;
     right: 0;
     bottom: 5%;
     width: 55px;
-}
+} */
 
 
 .icon-item {
@@ -492,7 +492,7 @@ header .contact-header {
 
 .scroll-icon {
   position: absolute; /* optional, if you want it positioned freely */
-  bottom: 40px; /* adjust as needed */
+  bottom: 150px;
   right: 0;
   transform: translateX(-50%);
   animation: floatUpDown 2.5s ease-in-out infinite;
@@ -513,4 +513,141 @@ header .contact-header {
   100% {
     transform: translate(-50%, 0); /* back to start */
   }
+}
+
+
+
+/* Add these styles to your style.css for the new background layer */
+
+
+.new-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1; /* behind content */
+  transition: opacity 1s ease, transform 1s ease; /* smooth blending */
+}
+
+.home .wrapper {
+  z-index: 2; /* ensure Home/Middle content is above background */
+}
+
+
+/* When animating fadeInUp (via Animate.css), it will override to fade in and slide up */
+.new-bg.animate__fadeInUp {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* For reverse (fade out down when hiding) - add this class dynamically if needed */
+.new-bg.animate__fadeOutDown {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* Update Middle to delay its internal animation if desired */
+.middle-con {
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  opacity: 0; /* Start hidden, fade in after BG */
+  transform: translateY(20px); /* Slight delay slide */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.middle-con.show { /* Add this class after BG anim to trigger content show */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.middle-con p {
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  max-width: 800px;
+  font-family: var(--secondary-font);
+  letter-spacing: 1px;
+  animation: none; /* Remove auto-animation; use parent now */
+}
+
+
+/* Optional: Add a subtle animation for Middle content */
+.middle-con p {
+  animation: fadeInUpContent 1s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUpContent {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Rocket Animation */
+
+
+.rocket-anim img {
+  width: 100%; /* Adjust size */
+  height: auto;
+}
+
+/* Rocket slow-then-fast takeoff */
+.rocket-anim {
+  position: absolute;
+  bottom: 30%; /* starts above the Earth */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  animation: rocketUp 4.5s cubic-bezier(0.3, 0.05, 0.7, 1) forwards;
+}
+
+/* Smooth lift-off then fast exit */
+@keyframes rocketUp {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  10% {
+    transform: translateX(-50%) translateY(-30px) rotate(-2deg);
+  }
+  30% {
+    transform: translateX(-50%) translateY(-100px) rotate(-3deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-200px) rotate(-5deg);
+  }
+  80% {
+    transform: translateX(-50%) translateY(-800px) rotate(-8deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-220vh) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+/* Ensure Earth is above rocket */
+.earth-container {
+  position: absolute;
+  bottom: -310px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 680px;
+  height: 630px;
+  background: url("../assets/earth.png") no-repeat center / contain;
+  animation: earthRotate 40s linear infinite;
+  clip-path: inset(0 0 0 0 round 50%);
+  overflow: hidden;
+  z-index: 1; /* Above rocket */
 }
