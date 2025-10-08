@@ -34,7 +34,7 @@ const App = () => {
 
           // After rocket anim (1s), proceed to content exit + BG in
           setTimeout(() => {
-            // Exit content
+            // Exit Home content (but keep container for Middle)
             const contentElement = document.querySelector('.content-area');
             if (contentElement) {
               contentElement.classList.add('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
@@ -45,7 +45,19 @@ const App = () => {
 
             // After next phase (1s), auto-show Middle
             setTimeout(() => {
+              // 🔧 Clear exit classes and reset styles from .content-area so Middle can show fully visible
+              const contentElementAgain = document.querySelector('.content-area');
+              if (contentElementAgain) {
+                contentElementAgain.classList.remove('animate__animated', 'animate__fadeOut', 'animate__zoomOut');
+                contentElementAgain.style.opacity = '1';
+                contentElementAgain.style.transform = 'none';
+              }
               setShowMiddleContent(true);
+              // 🔧 Add 'show' class to trigger fade-in on .middle-con
+              const middleElement = document.querySelector('.middle-con');
+              if (middleElement) {
+                middleElement.classList.add('show');
+              }
               setSection(2); // Full Middle state
               setIsAnimating(false);
             }, 1000);
@@ -68,6 +80,7 @@ const App = () => {
             const middleElement = document.querySelector('.middle-con');
             if (middleElement) {
               middleElement.classList.add('animate__animated', 'animate__fadeOut');
+              middleElement.classList.remove('show'); // 🔧 Clean up 'show' class on exit
             }
           }
           

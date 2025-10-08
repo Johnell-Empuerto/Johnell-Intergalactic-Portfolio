@@ -207,6 +207,7 @@ input[type="search"]::-webkit-search-results-decoration {
   position: relative;
   perspective: 1000px; /* Enables 3D space for rotation */
   overflow: hidden; /* Clips the Earth to the container bounds */
+  z-index: 100;
 }
 
 .earth-container {
@@ -441,6 +442,7 @@ header .contact-header {
     position: absolute;
     top: 50%;
     left: 0;
+    z-index: 101;
 }
 
 
@@ -549,48 +551,69 @@ header .contact-header {
   transform: translateY(100%);
 }
 
-/* Update Middle to delay its internal animation if desired */
+
+/* ===== INTERGALACTIC SKILLS ENTRANCE ===== */
 .middle-con {
-  height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  perspective: 800px;
+  overflow: hidden;
   position: relative;
-  z-index: 1;
-  background: transparent;
-  opacity: 0; /* Start hidden, fade in after BG */
-  transform: translateY(20px); /* Slight delay slide */
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.middle-con.show { /* Add this class after BG anim to trigger content show */
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.middle-con p {
-  font-size: 20px;
-  color: white;
   text-align: center;
-  padding: 20px;
-  max-width: 800px;
-  font-family: var(--secondary-font);
-  letter-spacing: 1px;
-  animation: none; /* Remove auto-animation; use parent now */
 }
 
-
-/* Optional: Add a subtle animation for Middle content */
-.middle-con p {
-  animation: fadeInUpContent 1s ease forwards;
+.middle-con h2 {
+  animation: intergalacticEntrance 5s ease-out forwards;
+  transform-origin: 50% 100%;
   opacity: 0;
-  transform: translateY(20px);
+  color: #00ffe1;
+  letter-spacing: 3px;
+  font-family: var(--primary-font);
+  font-size: 38px;
+  color: transparent;
+  -webkit-text-stroke: 2px #b48efc;
+  letter-spacing: 2px;
+  text-align: center;
 }
 
-@keyframes fadeInUpContent {
-  to {
+/* Glow flicker effect after entrance */
+@keyframes holoPulse {
+  0%, 100% { text-shadow: 0 0 10px #00ffe1, 0 0 30px #00ffe1; }
+  50% { text-shadow: 0 0 20px #00ffe1, 0 0 50px #00ffe1; }
+}
+
+/* Star Wars–style 3D Entrance for skills */
+@keyframes intergalacticEntrance {
+  0% {
+    transform: rotateX(30deg) translateY(200px) scale(1.4);
+    opacity: 0;
+  }
+  30% {
     opacity: 1;
+  }
+  70% {
+    transform: rotateX(25deg) translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(0deg) translateY(0) scale(1);
+    opacity: 1;
+    animation: holoPulse 2s infinite ease-in-out;
+  }
+}
+
+.skill-box {
+  animation: fadeInUpName 2s ease forwards;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+@keyframes fadeInUpName {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -636,6 +659,36 @@ header .contact-header {
     opacity: 0;
   }
 }
+
+
+.skill-con {
+    font-family: var(--primary-font);
+    font-size: 21px;
+    color: #ffff;
+    text-transform: uppercase;
+    text-align: right;
+    letter-spacing: 2px;
+    display: flex ;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    z-index: 501;
+    position: relative;
+}
+
+.skill-box {
+    width: 100%;
+    max-width: 290px;
+    text-align: center;
+    border: 2px solid #b48dfc;
+    height: 100px;
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================================================================================================== */
 
 /* Ensure Earth is above rocket */
 .earth-container {
