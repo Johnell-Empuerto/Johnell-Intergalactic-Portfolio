@@ -18,6 +18,7 @@ const App = () => {
   const [isBgFadingOut, setIsBgFadingOut] = useState(false); // Track fade out for unmount delay
   const [showMiddleContent, setShowMiddleContent] = useState(false); // Delay Middle content
   const [showRocket, setShowRocket] = useState(false); // For rocket animation
+  const [showUFO, setShowUFO] = useState(false); // For UFO animation
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
@@ -33,9 +34,10 @@ const App = () => {
         }
       } else if (event.deltaY < 0) { // Scroll up
         if (section === 2 || section === 1) {
-          // Single scroll up: Exit Middle + start BG fade out + auto-show Home
           setIsAnimating(true);
           setRotation((prev) => (prev - 90 + 360) % 360);
+          
+          setShowRocket(false); // Explicitly hide rocket immediately on scroll up
           
           // Start content exit (if Middle is visible)
           if (section === 2) {
@@ -45,31 +47,14 @@ const App = () => {
               middleElement.classList.add('animate__animated', 'animate__fadeOut');
               middleElement.classList.remove('show'); // 🔧 Clean up 'show' class on exit
             }
+
+            // After content fade out, show UFO
+            setTimeout(() => {
+              setShowUFO(true);
+            }, 1200); // Match animate.css fadeOut duration
           }
           
-          // Start BG fade out
-          setIsBgFadingOut(true);
-          const newBgElement = document.querySelector('.new-bg');
-          if (newBgElement) {
-            newBgElement.classList.remove('animate__fadeInUp');
-            newBgElement.classList.add('animate__fadeOutDown');
-          }
           setSection(1); // Transition state
-
-          // After animation, auto-show Home
-          setTimeout(() => {
-            setNewBgVisible(false); // Unmount BG
-            setIsBgFadingOut(false);
-            setSection(0); // Back to Home
-            setShowRocket(false); // 🔧 Reset rocket here—ensures it's always hidden on Home load
-            // Reset and fade in Home content
-            const contentElement = document.querySelector('.content-area');
-            if (contentElement) {
-              contentElement.classList.remove('animate__fadeOut', 'animate__zoomOut');
-              contentElement.classList.add('animate__animated', 'animate__fadeIn');
-            }
-            setIsAnimating(false);
-          }, 1200); // Buffer for smooth unmount
         }
       }
     };
@@ -90,10 +75,10 @@ const App = () => {
         smokeR = document.querySelectorAll(".rocket__smoke--right"),
         fire = document.getElementsByClassName("rocket__fire");
 
-    // Durations!
-    let cdStart = 1.25, cdLeave = cdStart / 2,
+    // Durations! Adjust these variables to shorten/lengthen phases (e.g., reduce by 0.2-0.5 each for ~1s total cut)
+    let cdStart = 1, cdLeave = cdStart / 2, // Reduced cdStart from 1.25 to 1
         esDuration = 0.10, esRepeat = 15,
-        smDuration = 1.5;
+        smDuration = 1.2; // Reduced from 1.5 to 1.2
 
     // Animations!
     tl.addLabel("countdown")
@@ -140,7 +125,7 @@ const App = () => {
       }, "engine-start-=.5")
       .addLabel("lift-off")
       .to(rocketElements, {
-        duration: 2,
+        duration: 1.5, // Reduced from 2 to 1.5 – adjust here for lift-off speed
         y: "-=100px",
       }, "lift-off-=1")
       .to(fire, {
@@ -149,7 +134,7 @@ const App = () => {
       }, "lift-off-=1")  
       .addLabel("launch")
       .to(rocketElements, {
-        duration: 3,
+        duration: 2.5, // Reduced from 3 to 2.5 – adjust here for launch speed
         y: () => "-=" + (document.body.offsetHeight) + "px",
         ease: "power4",
       }, "launch-=1.5")
@@ -190,6 +175,46 @@ const App = () => {
       }, 1000);
     });
   }, [showRocket]);
+
+  useEffect(() => {
+    if (!showUFO) return;
+
+    const flyElement = document.querySelector('.fly');
+    const handleAnimationEnd = () => {
+      // Start BG fade out after UFO animation completes
+      setIsBgFadingOut(true);
+      const newBgElement = document.querySelector('.new-bg');
+      if (newBgElement) {
+        newBgElement.classList.remove('animate__fadeInUp');
+        newBgElement.classList.add('animate__fadeOutDown');
+      }
+
+      // After BG fade out, show Home
+      setTimeout(() => {
+        setNewBgVisible(false);
+        setIsBgFadingOut(false);
+        setSection(0); // Back to Home
+        // Reset and fade in Home content
+        const contentElement = document.querySelector('.content-area');
+        if (contentElement) {
+          contentElement.classList.remove('animate__fadeOut', 'animate__zoomOut');
+          contentElement.classList.add('animate__animated', 'animate__fadeIn');
+        }
+        setShowUFO(false);
+        setIsAnimating(false);
+      }, 1200); // Buffer for smooth unmount
+    };
+
+    if (flyElement) {
+      flyElement.addEventListener('animationend', handleAnimationEnd, { once: true });
+    }
+
+    return () => {
+      if (flyElement) {
+        flyElement.removeEventListener('animationend', handleAnimationEnd);
+      }
+    };
+  }, [showUFO]);
 
   return (
     <div className='app-container'>
@@ -236,6 +261,29 @@ const App = () => {
                   ))
               )}
               <div className="rocket__fire"></div>
+            </div>
+          </div>
+        )}
+
+        {/* UFO Animation Layer */}
+        {showUFO && (
+          <div className="canvas">
+            <div className="stars"></div>
+            <div className="fly">
+              <div className="helmet"></div>
+              <div className="glitter"></div>
+              <div className="alien">
+                <div className="topLeft"></div>
+                <div className="topRight"></div>
+                <div className="eyes"></div>
+                <div className="eyebrows"></div>
+                <div className="mouth"></div>
+              </div>
+              <div className="middle"></div>
+              <div className="ufo">
+                <div className="lights"></div>
+                <div className="legs"></div>
+              </div>
             </div>
           </div>
         )}
