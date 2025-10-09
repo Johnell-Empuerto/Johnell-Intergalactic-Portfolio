@@ -31,6 +31,15 @@ const App = () => {
   const [showUFO, setShowUFO] = useState(false); // For UFO animation
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Preload background images to prevent loading delays on transitions
+  useEffect(() => {
+    const preloadImages = [middleBg, bottomBg, worksBg];
+    preloadImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   useEffect(() => {
     const handleWheel = (event) => {
       if (isAnimating) return; // Prevent multiple triggers during animation
