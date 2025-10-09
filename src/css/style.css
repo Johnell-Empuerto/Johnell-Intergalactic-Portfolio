@@ -229,6 +229,7 @@ input[type="search"]::-webkit-search-results-decoration {
   animation: earthRotate 40s linear infinite;
   clip-path: inset(0 0 0 0 round 50%);
   overflow: hidden;
+  z-index: 1; /* Above rocket */
 }
 
 /* Rotate only front half illusion */
@@ -240,7 +241,6 @@ input[type="search"]::-webkit-search-results-decoration {
     transform: translateX(-50%) rotate(360deg);
   }
 }
-
 
 .earth-container::before {
   content: "";
@@ -288,7 +288,6 @@ header img {
      transition: transform 0.3s ease;
 }
 
-
 /* Define the bell-shake animation */
 @keyframes bellShake {
   0% { transform: rotate(0deg); }
@@ -300,7 +299,6 @@ header img {
   100% { transform: rotate(0deg); }
 }
 
-/* When hovering over the link, shake the image */
 /* When hovering over the link, shake the image */
 header a:hover ~ img,
 header:hover img {
@@ -377,7 +375,6 @@ header .contact-header {
   padding-top: 60px;
 }
 
-
 /* ===== STAR WARS ENTRANCE EFFECT (with smooth settle) ===== */
 .banner-info {
   perspective: 600px;
@@ -441,34 +438,19 @@ header .contact-header {
   }
 }
 
-
-
-
-
-
 .floating-icons {
     display: flex ;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     position: absolute;
     top: 50%;
     left: 0;
     z-index: 101;
 }
 
-
 .floating-icons img {
     width: 40px;
 }
-
-
-/* .scroll-icon {
-    position: absolute;
-    right: 0;
-    bottom: 5%;
-    width: 55px;
-} */
-
 
 .icon-item {
   display: flex;
@@ -502,7 +484,6 @@ header .contact-header {
   transform: translateY(0); /* slide back down into place */
 }
 
-
 .scroll-icon {
   position: absolute; /* optional, if you want it positioned freely */
   bottom: 150px;
@@ -528,11 +509,7 @@ header .contact-header {
   }
 }
 
-
-
 /* Add these styles to your style.css for the new background layer */
-
-
 .new-bg {
   position: absolute;
   top: 0;
@@ -541,14 +518,20 @@ header .contact-header {
   height: 100%;
   background-size: cover;
   background-position: center;
-  z-index: 1; /* behind content */
   transition: opacity 1s ease, transform 1s ease; /* smooth blending */
 }
 
-.home .wrapper {
-  z-index: 2; /* ensure Home/Middle content is above background */
+.middle-bg {
+  z-index: 2; /* Adjusted to be below rocket */
 }
 
+.bottom-bg {
+  z-index: 3; /* Adjusted to be below rocket */
+}
+
+.home .wrapper {
+  z-index: 4; /* Ensure Home/Middle content is above background */
+}
 
 /* When animating fadeInUp (via Animate.css), it will override to fade in and slide up */
 .new-bg.animate__fadeInUp {
@@ -561,7 +544,6 @@ header .contact-header {
   opacity: 0;
   transform: translateY(100%);
 }
-
 
 /* ===== INTERGALACTIC SKILLS ENTRANCE ===== */
 .middle-con {
@@ -629,7 +611,6 @@ header .contact-header {
   }
 }
 
-
 .skill-con {
     font-family: var(--primary-font);
     font-size: 21px;
@@ -657,8 +638,6 @@ header .contact-header {
     align-items: center;
 }
 
-/* ================================================================================================== */
-
 /* Ensure Earth is above rocket */
 .earth-container {
   position: absolute;
@@ -673,7 +652,6 @@ header .contact-header {
   overflow: hidden;
   z-index: 1; /* Above rocket */
 }
-
 
 .shadow {
   position: absolute;
@@ -699,7 +677,7 @@ header .contact-header {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 10;
+  z-index: 201;
 }
 
 .rocket__body__window {
@@ -881,7 +859,7 @@ header .contact-header {
   bottom: 30%; /* starts above the Earth */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 0;
+  z-index: 5; /* Increased to be above middle-bg and bottom-bg */
 }
 
 .canvas {
@@ -1213,3 +1191,115 @@ header .contact-header {
     from {opacity: 0;}
     to {opacity: 1;}
 }
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 20px;
+  animation: fadeInUpName 2s ease forwards;
+  animation-delay: 2s;
+  opacity: 0;
+  max-width: 760px;
+  height: 380px;
+}
+
+.slide{
+  height: 100%;
+}
+
+.slider {
+    height: 100%;
+}
+
+.slide-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 15px;
+}
+
+.slide p {
+  margin: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.arrow img {
+  width: 30px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.arrow:hover img {
+  transform: scale(1.2);
+}
+
+/* Left arrow */
+.arrow-left {
+  left: -60px;
+}
+
+/* Right arrow */
+.arrow-right {
+  right: -60px;
+}
+
+/* ===== BOTTOM ENTRANCE (similar to middle) ===== */
+.bottom-con {
+  perspective: 800px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+.bottom-con h2 {
+  animation: intergalacticEntrance 5s ease-out forwards;
+  transform-origin: 50% 100%;
+  opacity: 0;
+  color: #00ffe1;
+  letter-spacing: 3px;
+  font-family: var(--primary-font);
+  font-size: 38px;
+  color: transparent;
+  -webkit-text-stroke: 2px #b48efc;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.left-box , .right-box  {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #CEB7FF;
+}
+
+.slide-content h3{
+  font-family: var(--primary-font);
+  font-size: 25px;
+  color: transparent;
+  -webkit-text-stroke: 1px #b48efc;
+  letter-spacing: 2px;
+}
+
+.slide-content p{
+  font-family: var(--primary-font);
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
