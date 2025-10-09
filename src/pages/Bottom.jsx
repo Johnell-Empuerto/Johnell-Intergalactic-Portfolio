@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap } from 'gsap';
 import leftArrow from "../assets/arrow_left.png";
 import rightArrow from "../assets/arrow_right.png";
 
@@ -46,16 +47,63 @@ const Bottom = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const slideRef = useRef(null);
+
+  useEffect(() => {
+    if (slideRef.current) {
+      gsap.fromTo(slideRef.current, 
+        { rotationX: 30, y: 200, scale: 1.4, opacity: 0 },
+        { 
+          rotationX: 0, 
+          y: 0, 
+          scale: 1, 
+          opacity: 1, 
+          duration: 1.5, 
+          ease: "power2.out",
+          onComplete: () => setIsTransitioning(false)
+        }
+      );
+    }
+  }, [currentIndex]);
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? slides.length - 1 : prev - 1
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    gsap.to(slideRef.current, 
+      { 
+        rotationX: -30, 
+        y: -200, 
+        scale: 1.4, 
+        opacity: 0, 
+        duration: 0.8, 
+        ease: "power2.in",
+        onComplete: () => {
+          setCurrentIndex((prev) =>
+            prev === 0 ? slides.length - 1 : prev - 1
+          );
+        }
+      }
     );
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === slides.length - 1 ? 0 : prev + 1
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    gsap.to(slideRef.current, 
+      { 
+        rotationX: 30, 
+        y: 200, 
+        scale: 1.4, 
+        opacity: 0, 
+        duration: 0.8, 
+        ease: "power2.in",
+        onComplete: () => {
+          setCurrentIndex((prev) =>
+            prev === slides.length - 1 ? 0 : prev + 1
+          );
+        }
+      }
     );
   };
 
@@ -63,7 +111,7 @@ const Bottom = () => {
     <div className="bottom-con">
       <h2>THE COSMOS OF MY EXPERIENCE</h2>
       <div className="slider-container">
-        <div className="slide">{slides[currentIndex]}</div>
+        <div className="slide" ref={slideRef}>{slides[currentIndex]}</div>
 
         <button className="arrow arrow-left" onClick={prevSlide}>
           <img src={leftArrow} alt="Previous" />
