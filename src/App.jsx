@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Home from './pages/Home';
 import Middle from './pages/Middle';
 import Bottom from './pages/Bottom'; // Assuming Bottom is in pages folder
+import Works from './pages/Works'; // Add this import
 import './css/style.css';
 import github from "./assets/icons/github.png";
 import linkedin from "./assets/icons/linkedin.png";
@@ -10,18 +11,22 @@ import scroll from "./assets/scroll.png";
 import sattelite from "./assets/icons/satellite.png"; // Import satellite here for header
 import middleBg from "./assets/middle_bg.png"; // Import the middle background image
 import bottomBg from "./assets/bottom_bg.png"; // Import the bottom background image
+import worksBg from "./assets/works_bg.png"; // Import the works background image
 import 'animate.css';
 import { gsap } from 'gsap';
 
 const App = () => {
   const [rotation, setRotation] = useState(275); // Start at 275 degrees
-  const [section, setSection] = useState(0); // 0: Home, 1/3: Transitioning, 2: Middle, 4: Bottom
+  const [section, setSection] = useState(0); // 0: Home, 1/3/5: Transitioning, 2: Middle, 4: Bottom, 6: Works
   const [showMiddleBg, setShowMiddleBg] = useState(false); // For middle BG
   const [showBottomBg, setShowBottomBg] = useState(false); // For bottom BG
+  const [showWorksBg, setShowWorksBg] = useState(false); // For works BG
   const [isBgFadingOutMiddle, setIsBgFadingOutMiddle] = useState(false); // Track fade out for middle
   const [isBgFadingOutBottom, setIsBgFadingOutBottom] = useState(false); // Track fade out for bottom
+  const [isBgFadingOutWorks, setIsBgFadingOutWorks] = useState(false); // Track fade out for works
   const [showMiddleContent, setShowMiddleContent] = useState(false); // Delay Middle content
   const [showBottomContent, setShowBottomContent] = useState(false); // Delay Bottom content
+  const [showWorksContent, setShowWorksContent] = useState(false); // Delay Works content
   const [showRocket, setShowRocket] = useState(false); // For rocket animation
   const [showUFO, setShowUFO] = useState(false); // For UFO animation
   const [isAnimating, setIsAnimating] = useState(false);
@@ -47,6 +52,19 @@ const App = () => {
           setSection(3); // Transition to bottom
           setTimeout(() => {
             setShowMiddleContent(false);
+            setShowRocket(true);
+          }, 1200);
+        } else if (section === 4) {
+          setIsAnimating(true);
+          setRotation((prev) => (prev + 90) % 360);
+          const bottomElement = document.querySelector('.bottom-con');
+          if (bottomElement) {
+            bottomElement.classList.add('animate__animated', 'animate__fadeOut');
+            bottomElement.classList.remove('show');
+          }
+          setSection(5); // Transition to works
+          setTimeout(() => {
+            setShowBottomContent(false);
             setShowRocket(true);
           }, 1200);
         }
@@ -83,7 +101,23 @@ const App = () => {
             setShowBottomContent(false);
             setShowUFO(true);
           }, 1200);
-        } else if (section === 1 || section === 3) {
+        } else if (section === 6) {
+          setIsAnimating(true);
+          setRotation((prev) => (prev - 90 + 360) % 360);
+          
+          setShowRocket(false); // Explicitly hide rocket immediately on scroll up
+          
+          const worksElement = document.querySelector('.works-con');
+          if (worksElement) {
+            worksElement.classList.add('animate__animated', 'animate__fadeOut');
+            worksElement.classList.remove('show');
+          }
+          setSection(5);
+          setTimeout(() => {
+            setShowWorksContent(false);
+            setShowUFO(true);
+          }, 1200);
+        } else if (section === 1 || section === 3 || section === 5) {
           // Handle if somehow in transition state, but normally prevented by isAnimating
         }
       }
@@ -92,7 +126,7 @@ const App = () => {
     window.addEventListener('wheel', handleWheel, { passive: true });
 
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [section, isAnimating, showMiddleBg, showBottomBg, showMiddleContent, showBottomContent, isBgFadingOutMiddle, isBgFadingOutBottom, showRocket]);
+  }, [section, isAnimating, showMiddleBg, showBottomBg, showWorksBg, showMiddleContent, showBottomContent, showWorksContent, isBgFadingOutMiddle, isBgFadingOutBottom, isBgFadingOutWorks, showRocket]);
 
   useEffect(() => {
     if (!showRocket) return;
@@ -195,6 +229,12 @@ const App = () => {
         nextContentSetter = setShowBottomContent;
         nextElementClass = '.bottom-con';
         nextSection = 4;
+      } else if (section === 5) {
+        nextBgSetter = setShowWorksBg;
+        nextBgFadingSetter = setIsBgFadingOutWorks;
+        nextContentSetter = setShowWorksContent;
+        nextElementClass = '.works-con';
+        nextSection = 6;
       }
 
       if (nextBgSetter) {
@@ -251,6 +291,14 @@ const App = () => {
         nextSection = 2;
         nextContentSetter = setShowMiddleContent;
         nextElementClass = '.middle-con';
+      } else if (section === 5) { // From works to bottom
+        bgFadingSetter = setIsBgFadingOutWorks;
+        bgSetter = setShowWorksBg;
+        bgFadingResetter = setIsBgFadingOutWorks;
+        bgClass = '.works-bg';
+        nextSection = 4;
+        nextContentSetter = setShowBottomContent;
+        nextElementClass = '.bottom-con';
       }
 
       if (bgFadingSetter) {
@@ -304,7 +352,7 @@ const App = () => {
         flyElement.removeEventListener('animationend', handleAnimationEnd);
       }
     };
-  }, [showUFO, section, showMiddleContent]);
+  }, [showUFO, section, showMiddleContent, showBottomContent, showWorksContent]);
 
   return (
     <div className='app-container'>
@@ -404,6 +452,19 @@ const App = () => {
           />
         )}
 
+        {/* Works Background Layer for Transition */}
+        {(showWorksBg || isBgFadingOutWorks) && (
+          <div 
+            className={`new-bg works-bg animate__animated ${showWorksBg ? 'animate__fadeInUp' : 'animate__fadeOutDown'}`}
+            style={{ 
+              backgroundImage: `url(${worksBg})`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'cover'
+            }}
+          />
+        )}
+
         <div className="wrapper">
           {/* Header - Always visible (CONTACT ME + satellite) */}
           <header className="animate__animated animate__fadeInUp animate__delay-4s">
@@ -417,6 +478,7 @@ const App = () => {
               {section === 0 && <Home />}
               {section === 2 && showMiddleContent && <Middle />}
               {section === 4 && showBottomContent && <Bottom />}
+              {section === 6 && showWorksContent && <Works />}
             </div>
           </div>
 
