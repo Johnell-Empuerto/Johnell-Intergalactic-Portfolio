@@ -6,11 +6,12 @@ const Works = () => {
         <h2>Universe of My Creations</h2>
 
         <div className="works-content">
-          <div className="works-box"><a href='#'>WordPress Galaxy</a></div>
-          <div className="works-box"><a href='#'>React Systems</a></div>
-          <div className="works-box"><a href='#'>WordPress + Bootstrap Constellation</a></div>
-          <div className="works-box"><a href='#'>ASP.NET Horizons</a></div>
+          <a href="https://www.medroxy4less.com/" className="works-box" target='_blank'>WordPress Galaxy</a>
+          <a href="https://my-project-black-eight.vercel.app/" className="works-box" target='_blank'>React Systems</a>
+          <a href="https://test1.2advanz.com/" className="works-box" target='_blank'>WordPress + Bootstrap Constellation</a>
+          <a href="#" className="works-box">ASP.NET Horizons</a>
         </div>
+
     </div>
   )
 }

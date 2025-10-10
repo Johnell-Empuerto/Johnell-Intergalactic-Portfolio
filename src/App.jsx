@@ -478,7 +478,7 @@ const App = () => {
           {/* Header - Always visible (CONTACT ME + satellite) */}
           <header className="animate__animated animate__fadeInUp animate__delay-4s">
             <img src={sattelite} alt="sattelite" />
-            <a href="#" className='contact-header'>CONTACT ME</a>
+            <a href="mailto:empuertojohnellchess@gmail.com" className='contact-header'>CONTACT ME</a>
           </header>
 
           {/* Content Container - Only this changes */}
@@ -499,17 +499,17 @@ const App = () => {
           {/* Floating Icons - Always visible */}
           <div className="floating-icons animate__animated animate__fadeInUp animate__delay-4s">
             <div className="icon-item">
-              <a href="#"><img src={github} alt="github" /></a> 
+              <a href="https://github.com/Johnell-Empuerto" target='_blank'><img src={github} alt="github" /></a> 
               <p>GitHub</p>
             </div>
 
             <div className="icon-item">
-              <a href="#"><img src={linkedin} alt="linkedin" /></a>
+              <a href="https://www.linkedin.com/in/johnell-empuerto-a894a7276" target='_blank'><img src={linkedin} alt="linkedin" /></a>
               <p>LinkedIn</p>
             </div>
 
             <div className="icon-item">
-              <a href="#"><img src={instagram} alt="instagram" /></a>
+              <a href="https://www.instagram.com/johnellempuerto/" target='_blank'><img src={instagram} alt="instagram" /></a>
               <p>Instagram</p>
             </div>
           </div>
