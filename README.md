@@ -1,24 +1,46 @@
-🌌 Johnell Empuerto — Portfolio
-This is my personal portfolio website built with React + Vite.
+# 🌌 Johnell Empuerto — Portfolio  
 
-🎨 Credits:
+Welcome to my **personal portfolio website** ✨  
+Built with **React + Vite**, this project is my space-themed journey showcasing skills, projects, and creativity.  
 
-UI Design: Inspired by the free Space-Themed Portfolio on Figma
-Link: https://www.figma.com/community/file/1192903581929005722/space-themed-portfolio
+🔗 **Live Demo**: [portfolio-jade-ten-u76u7iehdb.vercel.app](https://portfolio-jade-ten-u76u7iehdb.vercel.app)  
 
-Font: Death Star by Sharkshock
-Official site: https://www.sharkshock.net/
-Download page: https://www.1001fonts.com/death-star-font.html
-License: Free for personal use only. Contact Sharkshock for commercial licensing.
+---
 
-👨‍🚀 About
-This project is a personal showcase of my skills and work.
-It is not intended for commercial distribution or profit.
+## 🎨 Credits & Inspiration  
+- **UI Design**: Inspired by [Space-Themed Portfolio (Figma)](https://www.figma.com/community/file/1192903581929005722/space-themed-portfolio)  
+- **Font**: *Death Star* by [Sharkshock](https://www.sharkshock.net/)  
+  - Download: [1001 Fonts](https://www.1001fonts.com/death-star-font.html)  
+  - License: Free for personal use (seek commercial licensing if needed)  
 
-⚠️ Disclaimer
-This repository is for educational and personal showcase purposes only.
-Fonts and design assets are credited to their respective creators.
-If you plan to reuse or modify this project, please replace any assets (such as fonts) that are personal-use only with alternatives that are free or licensed for commercial use.
+---
 
-🚀 Author
-Johnell Empuerto
+## 👨‍🚀 About  
+This is my **portfolio**, where I:  
+- Showcase my **projects & works**  
+- Present my **skills & background**  
+- Share my **growth and journey** as a developer  
+
+⚠️ **Note**: This portfolio is for **educational & personal** use.  
+Some assets (fonts, designs) are credited to original creators.  
+If you reuse or fork this project, please replace any personal-use-only assets with properly licensed alternatives.  
+
+---
+
+## 🛠️ Tech Stack & Features  
+- ⚛️ React + Vite for fast and modern frontend  
+- 🎨 Custom CSS (animations, theming)  
+- 🛰️ Space-themed design  
+- 🧩 Responsive & interactive UI  
+
+---
+
+## 🚀 Author  
+👤 **Johnell Empuerto**  
+- 🌐 [Portfolio Website](https://portfolio-jade-ten-u76u7iehdb.vercel.app)  
+- 🐙 [GitHub](https://github.com/Johnell-Empuerto)  
+- ✉️ [Email](mailto:empuertojohnellchess@gmail.com)  
+
+---
+
+> *“A portfolio is not just a website — it’s a universe you build to reflect your work and vision.”* 🌌  
