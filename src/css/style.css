@@ -1458,14 +1458,14 @@ gap: 10px;
 /* ===============================Mobile Message CSS===================== */
 /* Add to style.css or mediaquery.css */
 
-/* Styles for the mobile/tablet message */
+/* ===== MOBILE/TABLET MESSAGE WITH STAR WARS ENTRANCE ===== */
 .mobile-message {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100dvh;
-  background: url("../assets/works_bg.png"); /* Dark space theme */
+  background: url("../assets/works_bg.png");
   color: #fff;
   text-align: center;
   padding: 2rem;
@@ -1473,9 +1473,20 @@ gap: 10px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  perspective: 600px; /* Needed for 3D effect */
+  overflow: hidden;
 }
 
-.mobile-message h1 {
+.mobile-message h2,
+.mobile-message p {
+  animation: starwarsEntrance 5s ease-out forwards;
+  transform-origin: 50% 100%;
+  opacity: 0;
+}
+
+/* Different entrance delays */
+.mobile-message h2 {
+  animation-delay: 0.3s;
   font-size: 2rem;
   color: transparent;
   -webkit-text-stroke: 2px #b48efc;
@@ -1483,9 +1494,30 @@ gap: 10px;
 }
 
 .mobile-message p {
+  animation-delay: 0.8s;
   font-size: 1.2rem;
   color: #CEB7FF;
 }
+
+/* 3D Entrance and Settle Animation */
+@keyframes starwarsEntrance {
+  0% {
+    transform: rotateX(25deg) translateY(200px) scale(1.3);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    transform: rotateX(25deg) translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(0deg) translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
 /* ===============================Mobile Message CSS End ================== */
 
 /* ===============================Media Queries===================== */

@@ -379,8 +379,9 @@ const App = () => {
   if (!isDesktop) {
     return (
       <div className="mobile-message">
-        <h1>This website is available on desktop</h1>
-        <p>Because it needs a mouse to scroll and functionality.</p>
+        <h2>🚀 Blast Off to the Desktop Galaxy</h2>
+        <p>This universe is best explored with a desktop spaceship 🖥️✨  
+      Use your PC to navigate the stars and unlock the full experience.</p>
       </div>
     );
   }
