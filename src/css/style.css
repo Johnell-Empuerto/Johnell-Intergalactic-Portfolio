@@ -1,6 +1,7 @@
 /* Add this to the top of your style.css for the font */
 @import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap');
 
+/* ===============================Fonts and Root Variables===================== */
 @font-face {
   font-family: 'starjedi';
   src: url('../assets/fonts/starjedi/Starjedi.ttf') format('opentype');
@@ -27,7 +28,9 @@
   --rocket-fire: #f0932b;
   --rocket-fire-highlight: #f1c40f;
 }
+/* ===============================Fonts and Root Variables End ================== */
 
+/* ===============================Reset CSS===================== */
 /* Box sizing & inheritance */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -191,7 +194,9 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 /* End of reset.css */
+/* ===============================Reset CSS End ================== */
 
+/* ===============================Wrapper===================== */
 /* wrapper for all content */
 .wrapper {
   max-width: 1400px;
@@ -200,7 +205,9 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 /* end wrapper for all content */
+/* ===============================Wrapper End ================== */
 
+/* ===============================Home Section CSS===================== */
 .home {
   height: 100dvh;
   background: url('../assets/landing_bg.png');
@@ -218,6 +225,17 @@ input[type="search"]::-webkit-search-results-decoration {
   z-index: 100;
 }
 
+.home-con h2 {
+  font-family: var(--primary-font);
+  font-size: 38px;
+  color: transparent;
+  -webkit-text-stroke: 2px #b48efc;
+  letter-spacing: 2px;
+  text-align: center;
+}
+/* ===============================Home Section CSS End ================== */
+
+/* ===============================Earth CSS===================== */
 .earth-container {
   position: absolute;
   bottom: -310px;
@@ -267,15 +285,23 @@ input[type="search"]::-webkit-search-results-decoration {
   backface-visibility: hidden; /* Hides until rotated */
 }
 
-.home-con h2 {
-  font-family: var(--primary-font);
-  font-size: 38px;
-  color: transparent;
-  -webkit-text-stroke: 2px #b48efc;
-  letter-spacing: 2px;
-  text-align: center;
+/* Ensure Earth is above rocket */
+.earth-container {
+  position: absolute;
+  bottom: -310px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 680px;
+  height: 630px;
+  background: url("../assets/earth.png") no-repeat center / contain;
+  animation: earthRotate 40s linear infinite;
+  clip-path: inset(0 0 0 0 round 50%);
+  overflow: hidden;
+  z-index: 1; /* Above rocket */
 }
+/* ===============================Earth CSS End ================== */
 
+/* ===============================Header CSS===================== */
 header {
     padding-top: 70px;
     display: flex ;
@@ -314,7 +340,9 @@ header .contact-header {
   letter-spacing: 2px;
   display: block; /* 👈 make it behave like <h3> */
 }
+/* ===============================Header CSS End ================== */
 
+/* ===============================Banner CSS===================== */
 .banner-info {
     width: 100%;
     max-width: 820px;
@@ -437,7 +465,9 @@ header .contact-header {
     opacity: 1;
   }
 }
+/* ===============================Banner CSS End ================== */
 
+/* ===============================Floating Icons CSS===================== */
 .floating-icons {
     display: flex ;
     flex-direction: column;
@@ -483,7 +513,9 @@ header .contact-header {
   opacity: 1;
   transform: translateY(0); /* slide back down into place */
 }
+/* ===============================Floating Icons CSS End ================== */
 
+/* ===============================Scroll Icon CSS===================== */
 .scroll-icon {
   position: absolute; /* optional, if you want it positioned freely */
   bottom: 150px;
@@ -508,7 +540,9 @@ header .contact-header {
     transform: translate(-50%, 0); /* back to start */
   }
 }
+/* ===============================Scroll Icon CSS End ================== */
 
+/* ===============================New BG CSS===================== */
 /* Add these styles to your style.css for the new background layer */
 .new-bg {
   position: absolute;
@@ -544,7 +578,9 @@ header .contact-header {
   opacity: 0;
   transform: translateY(100%);
 }
+/* ===============================New BG CSS End ================== */
 
+/* ===============================Middle Section CSS===================== */
 /* ===== INTERGALACTIC SKILLS ENTRANCE ===== */
 .middle-con {
   perspective: 800px;
@@ -620,47 +656,39 @@ header .contact-header {
 }
 
 .skill-con {
-    font-family: var(--primary-font);
-    font-size: 21px;
-    color: #ffff;
-    text-transform: uppercase;
-    text-align: right;
-    letter-spacing: 2px;
-    display: flex ;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    z-index: 501;
-    position: relative;
+  font-family: var(--primary-font);
+  font-size: 21px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Always 4 per row */
+gap: 10px;
+  z-index: 501;
+  position: relative;
+  justify-items: center; /* center items horizontally */
+  align-items: center;   /* center items vertically */
+  width: 80%;
+  margin: 0 auto;
 }
 
 .skill-box {
-    width: 100%;
-    max-width: 290px;
-    text-align: center;
-    border: 2px solid #b48dfc;
-    height: 100px;
-    display: flex ;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  max-width: 290px;
+  text-align: center;
+  border: 2px solid #b48dfc;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInUpName 2s ease forwards;
+  animation-delay: 2s;
+  opacity: 0;
+  transition: all 0.4s ease;
 }
+/* ===============================Middle Section CSS End ================== */
 
-/* Ensure Earth is above rocket */
-.earth-container {
-  position: absolute;
-  bottom: -310px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 680px;
-  height: 630px;
-  background: url("../assets/earth.png") no-repeat center / contain;
-  animation: earthRotate 40s linear infinite;
-  clip-path: inset(0 0 0 0 round 50%);
-  overflow: hidden;
-  z-index: 1; /* Above rocket */
-}
-
+/* ===============================Rocket CSS===================== */
 .shadow {
   position: absolute;
   width: 50%;
@@ -869,7 +897,9 @@ header .contact-header {
   transform: translateX(-50%);
   z-index: 5; /* Increased to be above middle-bg and bottom-bg */
 }
+/* ===============================Rocket CSS End ================== */
 
+/* ===============================UFO CSS===================== */
 .canvas {
     position: absolute;
     top: 0;
@@ -1199,7 +1229,9 @@ header .contact-header {
     from {opacity: 0;}
     to {opacity: 1;}
 }
+/* ===============================UFO CSS End ================== */
 
+/* ===============================Bottom Section CSS===================== */
 .slider-container {
   position: relative;
   width: 100%;
@@ -1310,7 +1342,9 @@ header .contact-header {
   color: #fff;
   letter-spacing: 2px;
 }
+/* ===============================Bottom Section CSS End ================== */
 
+/* ===============================Works Section CSS===================== */
 /* ===== WORKS AREA ===== */
 .works-bg {
   z-index: 4; /* Above bottom-bg */
@@ -1419,4 +1453,57 @@ header .contact-header {
   box-shadow: 0 0 15px #b48dfc, 0 0 30px #00ffe1;
   border-color: #00ffe1;
 }
+/* ===============================Works Section CSS End ================== */
 
+/* ===============================Mobile Message CSS===================== */
+/* Add to style.css or mediaquery.css */
+
+/* Styles for the mobile/tablet message */
+.mobile-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  background: #000; /* Dark space theme */
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--primary-font);
+}
+
+.mobile-message h1 {
+  font-size: 2rem;
+  color: transparent;
+  -webkit-text-stroke: 2px #b48efc;
+  margin-bottom: 1rem;
+}
+
+.mobile-message p {
+  font-size: 1.2rem;
+  color: #CEB7FF;
+}
+/* ===============================Mobile Message CSS End ================== */
+
+/* ===============================Media Queries===================== */
+/* 🔹 Responsive adjustments */
+@media screen and (max-width: 1400px) {
+  .skill-box { max-width: 220px; }
+}
+
+@media screen and (max-width: 1200px) {
+  .skill-box { max-width: 170px; }
+}
+
+@media screen and (max-width: 768px) {
+  .skill-con {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .skill-con {
+    grid-template-columns: 1fr; /* stack all in one column on small screens */
+  }
+}
+/* ===============================Media Queries End ================== */

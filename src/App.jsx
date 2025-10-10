@@ -30,6 +30,19 @@ const App = () => {
   const [showRocket, setShowRocket] = useState(false); // For rocket animation
   const [showUFO, setShowUFO] = useState(false); // For UFO animation
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true); // Track if desktop
+
+  // Detect screen size for desktop vs mobile/tablet
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024); // Assume >=1024px is desktop/laptop
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Preload background images to prevent loading delays on transitions
   useEffect(() => {
@@ -362,6 +375,15 @@ const App = () => {
       }
     };
   }, [showUFO, section, showMiddleContent, showBottomContent, showWorksContent]);
+
+  if (!isDesktop) {
+    return (
+      <div className="mobile-message">
+        <h1>This website is available on desktop</h1>
+        <p>Because it needs a mouse to scroll and functionality.</p>
+      </div>
+    );
+  }
 
   return (
     <div className='app-container'>
