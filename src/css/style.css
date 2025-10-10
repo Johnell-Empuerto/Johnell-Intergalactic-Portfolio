@@ -1465,11 +1465,14 @@ gap: 10px;
   justify-content: center;
   align-items: center;
   height: 100dvh;
-  background: #000; /* Dark space theme */
+  background: url("../assets/works_bg.png"); /* Dark space theme */
   color: #fff;
   text-align: center;
   padding: 2rem;
   font-family: var(--primary-font);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .mobile-message h1 {
@@ -1489,21 +1492,22 @@ gap: 10px;
 /* 🔹 Responsive adjustments */
 @media screen and (max-width: 1400px) {
   .skill-box { max-width: 220px; }
+  .floating-icons { margin-left: 10px; }
+  header .contact-header { margin-right: 10px; }
+  .works-box {
+    max-width: 250px;
+
+}
 }
 
 @media screen and (max-width: 1200px) {
-  .skill-box { max-width: 170px; }
+  .skill-box { max-width: 190px; }
+  .works-box {
+    max-width: 210px;
+
+}
 }
 
-@media screen and (max-width: 768px) {
-  .skill-con {
-    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
-  }
-}
 
-@media screen and (max-width: 480px) {
-  .skill-con {
-    grid-template-columns: 1fr; /* stack all in one column on small screens */
-  }
-}
 /* ===============================Media Queries End ================== */
+
