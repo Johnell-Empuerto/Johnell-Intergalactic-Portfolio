@@ -598,7 +598,15 @@ header .contact-header {
   animation: fadeInUpName 2s ease forwards;
   animation-delay: 2s;
   opacity: 0;
+  transition: all 0.4s ease;
 }
+
+.skill-box:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 15px #b48dfc, 0 0 30px #00ffe1;
+  border-color: #00ffe1;
+}
+
 
 @keyframes fadeInUpName {
   from {
