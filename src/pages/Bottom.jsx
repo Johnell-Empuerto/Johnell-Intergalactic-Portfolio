@@ -40,7 +40,7 @@ const Bottom = () => {
         <h3>Software Engineer</h3>
             <p className="right-box">2025 - current</p>
             <p>
-            Currently navigating the universe as a Software Engineer, where I craft interstellar solutions, explore new         technologies, and push the boundaries of innovation across the digital galaxy.
+            Currently navigating the universe as a Software Engineer at NPAX Inc., where I craft interstellar solutions, explore new         technologies, and push the boundaries of innovation across the digital galaxy.
             </p>
       </div>
     </div>,
